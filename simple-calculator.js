@@ -1,8 +1,22 @@
-function Calculator() {
-  this.total = 0;
+class Calculator {
+  constructor() {
+    this.total = 0;
+  }
+  add(number) {
+    return (this.total += number);
+  }
+  subtract(number) {
+    return (this.total -= number);
+  }
+  multiply(number) {
+    return (this.total *= number);
+  }
+  divide(number) {
+    if (number === 0) {
+      throw new Error("number cannot be 0");
+    }
+    return (this.total /= number);
+  }
 }
 
-Calculator.prototype.add = (number) => (this.total += number);
-Calculator.prototype.subtract = (number) => (this.total -= number);
-Calculator.prototype.multiply = (number) => (this.total *= number);
-Calculator.prototype.divide = (number) => (this.total /= number);
+
