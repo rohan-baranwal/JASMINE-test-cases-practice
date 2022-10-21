@@ -4,7 +4,12 @@ const calculate = (event) => {
 
   const numberA = +inputValue.split(regExp)[0];
   const numberB = +inputValue.split(regExp)[1];
-  const operator = inputValue.match(regExp)[0];
+  const operation = inputValue.match(regExp);
+  const operator = operation[0];
+  if (operator === null || isNaN(numberA) || isNaN(numberB)) {
+    updateResult("Operation recognized");
+    // throw new Error('provide a valid operator')
+  }
 
   const calculator = new Calculator();
   calculator.add(numberA);
