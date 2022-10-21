@@ -1,0 +1,23 @@
+{
+  "name": "jasmine-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohan-baranwal/JASMINE-test-cases-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohan-baranwal/JASMINE-test-cases-practice/issues"
+  },
+  "homepage": "https://github.com/rohan-baranwal/JASMINE-test-cases-practice#readme",
+  "devDependencies": {
+    "jasmine": "^4.4.0"
+  }
+}
