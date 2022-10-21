@@ -1,7 +1,8 @@
 {
-  "spec_dir": "spec",
+  "spec_dir": "../Jasmine Testing",
   "spec_files": [
-    "**/*[sS]pec.?(m)js"
+    "**/*[sS]pec.?(m)js",
+    "!node_modules/**/*[sS]pec.?(m)js"
   ],
   "helpers": [
     "helpers/**/*.?(m)js"
