@@ -1,136 +1,139 @@
-// test suite
-// Suite --> group of tests
-const { CustomMatcher } = require("./custom-matcher.js");
-var Calculator = require("./simple-calculator.js");
+// const { CustomMatcher } = require("./custom-matcher.js");
+// var Calculator = require("./simple-calculator.js");
 describe("simple-calculator", () => {
-  beforeEach(() => {});
-  it("should add number to the total", () => {
-    const calculator = new Calculator();
-    calculator.add(5);
-    expect(calculator.total).toEqual(5);
-    calculator.subtract(1);
-    expect(calculator.total).toEqual(4);
-  });
+  describe("Calculator", () => {
+    let calculator;
+    beforeEach(() => {
+      calculator = new Calculator();
+    });
+    afterEach(() => {
 
-  it("should subtract number from the total", () => {
-    const calculator = new Calculator();
-    calculator.subtract(5);
-    expect(calculator.total).toBe(-5);
-  });
+    })
+    // toBeUndefined, toBeDefined
+    it("should have common methods", () => {
+      expect(calculator.add).not.toBeUndefined();
+      expect(calculator.subtract).toBeDefined();
+      expect(calculator.multiply).toBeDefined();
+      expect(calculator.divide).toBeDefined();
+    });
 
-  it("should multiply number to the total", () => {
-    const calculator = new Calculator();
-    calculator.total = 5;
-    calculator.multiply(5);
-    expect(calculator.total).toBe(25);
-  });
+    // toBeNull
+    it("can overwrite total value", () => {
+      calculator.total = null;
+      expect(calculator.total).toBeNull();
+    });
 
-  it("should divide the total by number", () => {
-    const calculator = new Calculator();
-    calculator.total = 5;
-    calculator.divide(5);
-    expect(calculator.total).toBe(1);
-  });
+    // toContain
+    it("should have Constructor name as Calculator", () => {
+      expect(calculator.constructor.name).toContain("Calc");
+    });
 
-  // toBeUndefined, toBeDefined
-  it("should have common methods", () => {
-    const calculator = new Calculator();
-    expect(calculator.add).not.toBeUndefined();
-    expect(calculator.subtract).toBeDefined();
-    expect(calculator.multiply).toBeDefined();
-    expect(calculator.divide).toBeDefined();
-  });
+    // toBeNaN
+    it("doesnot handle Nan for multiply", () => {
+      calculator.total = 10;
+      calculator.multiply("a");
+      expect(calculator.total).toBeNaN();
+    });
 
-  // toBeNull
-  it("can overwrite total value", () => {
-    const calculator = new Calculator();
-    calculator.total = null;
-    expect(calculator.total).toBeNull();
-  });
+    // toThrow
+    it("should throw an error", () => {
+      calculator.total = 100;
+      // takes a function instead of function call
+      expect(() => calculator.divide(0)).toThrow();
+      expect(() => calculator.divide(0)).toThrow(
+        new ArithmeticError("number cannot be 0")
+      );
+    });
 
-  // toContain
-  it("should have Constructor name as Calculator", () => {
-    const calculator = new Calculator();
-    expect(calculator.constructor.name).toContain("Calc");
-  });
+    // toThrowError
+    it("should throw an error of specific type", () => {
+      expect(() => calculator.divide(0)).toThrowError();
+      expect(() => calculator.divide(0)).toThrowError("number cannot be 0");
+      expect(() => calculator.divide(0)).toThrowError(
+        ArithmeticError,
+        "number cannot be 0"
+      );
+    });
 
-  // toBeNaN
-  it("doesnot handle Nan for multiply", () => {
-    const calculator = new Calculator();
-    calculator.total = 10;
-    calculator.multiply("a");
-    expect(calculator.total).toBeNaN();
-  });
+    // toMatch
+    it("should return a total number", () => {
+      calculator.total = 10;
+      calculator.add(10);
+      expect(calculator.total).toMatch(/-?\d+/);
+      expect(typeof calculator.total).toMatch("number");
+    });
 
-  // toThrow
-  it("should throw an error", () => {
-    const calculator = new Calculator();
-    calculator.total = 100;
-    // takes a function instead of function call
-    expect(() => calculator.divide(0)).toThrow();
-    expect(() => calculator.divide(0)).toThrow(new Error("number cannot be 0"));
-  });
+    // anything() Asymmetric Matcher
+    it("it should return total as value", () => {
+      calculator.total = 10;
+      expect(calculator.total).toEqual(jasmine.anything());
+      calculator.total = null;
+      expect(calculator.total).not.toEqual(jasmine.anything());
+      calculator.total = undefined;
+      expect(calculator.total).not.toEqual(jasmine.anything());
+    });
 
-  // toThrowError
-  it("should throw an error of specific type", () => {
-    const calculator = new Calculator();
-    expect(() => calculator.divide(0)).toThrowError();
-    expect(() => calculator.divide(0)).toThrowError("number cannot be 0");
-    expect(() => calculator.divide(0)).toThrowError(
-      Error,
-      "number cannot be 0"
-    );
-  });
+    // any() Asymmetric Matcher
+    it("it should bear instance", () => {
+      jasmine.addMatchers(customMatcher);
+      calculator.total = 10;
+      expect(calculator).toEqual(jasmine.any(Object));
+      expect(calculator.total).toEqual(jasmine.any(Number));
+      expect(calculator).toBeCalculator();
+    });
 
-  // toMatch
-  it("should return a total number", () => {
-    const calculator = new Calculator();
-    calculator.total = 10;
-    calculator.add(10);
-    expect(calculator.total).toMatch(/-?\d+/);
-    expect(typeof calculator.total).toMatch("number");
-  });
+    // objectContaining({}) Asymmteric Matcher
+    it("should contain total as a key", () => {
+      calculator.total = 10;
+      expect(calculator).toEqual(
+        jasmine.objectContaining({
+          total: 10,
+        })
+      );
+    });
 
-  // anything() Asymmetric Matcher
-  it("it should return total as value", () => {
-    const calculator = new Calculator();
-    calculator.total = 10;
-    expect(calculator.total).toEqual(jasmine.anything());
-    calculator.total = null;
-    expect(calculator.total).not.toEqual(jasmine.anything());
-    calculator.total = undefined;
-    expect(calculator.total).not.toEqual(jasmine.anything());
-  });
+    // stringContaining('') Asymmteric Matcher
+    it("should have number type for total", () => {
+      calculator.total = 10;
+      expect(typeof calculator.total).toEqual(
+        jasmine.stringContaining("number")
+      );
+    });
 
-  // any() Asymmetric Matcher
-  it("it should bear instance", () => {
-    jasmine.addMatchers(CustomMatcher);
-    const calculator = new Calculator();
-    calculator.total = 10;
-    expect(calculator).toEqual(jasmine.any(Object));
-    expect(calculator.total).toEqual(jasmine.any(Number));
-    expect(calculator).toBeCalculator();
-  });
+    it("should expect true to be true", () => {
+      expect(true).toBeTrue();
+    });
 
-  // objectContaining({}) Asymmteric Matcher
-  it("should contain total as a key", () => {
-    const calculator = new Calculator();
-    calculator.total = 10;
-    expect(calculator).toEqual(
-      jasmine.objectContaining({
-        total: 10,
-      })
-    );
-  });
+    describe("add()", () => {
+      it("should add number to the total", () => {
+        calculator.add(5);
+        expect(calculator.total).toEqual(5);
+        calculator.subtract(1);
+        expect(calculator.total).toEqual(4);
+      });
+    });
 
-  // stringContaining('') Asymmteric Matcher
-  it("should have number type for total", () => {
-    const calculator = new Calculator();
-    calculator.total = 10;
-    expect(typeof calculator.total).toEqual(jasmine.stringContaining("number"));
-  });
+    describe("subtract()", () => {
+      it("should subtract number from the total", () => {
+        calculator.subtract(5);
+        expect(calculator.total).toBe(-5);
+      });
+    });
 
-  it("should expect true to be true", () => {
-    expect(true).toBeTrue();
+    describe("multiply()", () => {
+      it("should multiply number to the total", () => {
+        calculator.total = 5;
+        calculator.multiply(5);
+        expect(calculator.total).toBe(25);
+      });
+    });
+
+    describe("divide()", () => {
+      it("should divide the total by number", () => {
+        calculator.total = 5;
+        calculator.divide(5);
+        expect(calculator.total).toBe(1);
+      });
+    });
   });
 });
