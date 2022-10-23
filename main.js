@@ -7,7 +7,7 @@ const calculate = (event) => {
   const operation = inputValue.match(regExp);
   const operator = operation[0];
   if (operator === null || isNaN(numberA) || isNaN(numberB)) {
-    updateResult("Operation recognized");
+    updateResult("Expression not recognized");
     // throw new Error('provide a valid operator')
   }
 
@@ -30,6 +30,7 @@ const calculate = (event) => {
       break;
 
     default:
+      result = "Operation not recognized";
       break;
   }
   updateResult(result);
@@ -41,4 +42,6 @@ const updateResult = (result) => {
     element.innerText = result;
   }
 };
-document.getElementById("inputValue").addEventListener("change", calculate);
+
+document.getElementById("inputValue") &&
+  document.getElementById("inputValue").addEventListener("change", calculate);
