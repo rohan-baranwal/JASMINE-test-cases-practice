@@ -75,18 +75,57 @@ describe("simple-calculator", () => {
     const calculator = new Calculator();
     expect(() => calculator.divide(0)).toThrowError();
     expect(() => calculator.divide(0)).toThrowError("number cannot be 0");
-    expect(() => calculator.divide(0)).toThrowError(Error, "number cannot be 0");
+    expect(() => calculator.divide(0)).toThrowError(
+      Error,
+      "number cannot be 0"
+    );
   });
 
   // toMatch
-  it('should return a total number', () => {
+  it("should return a total number", () => {
     const calculator = new Calculator();
-    calculator.total= 10;
+    calculator.total = 10;
     calculator.add(10);
     expect(calculator.total).toMatch(/-?\d+/);
-    expect(typeof calculator.total).toMatch('number')
+    expect(typeof calculator.total).toMatch("number");
   });
 
+  // anything() Asymmetric Matcher
+  it("it should return total as value", () => {
+    const calculator = new Calculator();
+    calculator.total = 10;
+    expect(calculator.total).toEqual(jasmine.anything());
+    calculator.total = null;
+    expect(calculator.total).not.toEqual(jasmine.anything());
+    calculator.total = undefined;
+    expect(calculator.total).not.toEqual(jasmine.anything());
+  });
+
+  // any() Asymmetric Matcher
+  it("it should bear instance", () => {
+    const calculator = new Calculator();
+    calculator.total = 10;
+    expect(calculator).toEqual(jasmine.any(Object));
+    expect(calculator.total).toEqual(jasmine.any(Number));
+  });
+
+  // objectContaining({}) Asymmteric Matcher
+  it("should contain total as a key", () => {
+    const calculator = new Calculator();
+    calculator.total = 10;
+    expect(calculator).toEqual(
+      jasmine.objectContaining({
+        total: 10,
+      }));
+    });
+    
+    
+  // stringContaining('') Asymmteric Matcher
+  it('', () => {
+    const calculator = new Calculator();
+    calculator.total = 10;
+    expect(typeof calculator.total).toEqual(jasmine.stringContaining('number'))
+  });
   it("should expect true to be true", () => {
     expect(true).toBeTrue();
   });
