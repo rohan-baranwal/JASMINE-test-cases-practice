@@ -7,7 +7,7 @@ describe("simple-calculator", () => {
       calculator = new Calculator();
     });
     afterEach(() => {
-
+      // Something here to execute after specs execution
     })
     // toBeUndefined, toBeDefined
     it("should have common methods", () => {
