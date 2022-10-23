@@ -1,5 +1,6 @@
 // test suite
 // Suite --> group of tests
+const { CustomMatcher } = require("./custom-matcher.js");
 var Calculator = require("./simple-calculator.js");
 describe("simple-calculator", () => {
   beforeEach(() => {});
@@ -103,10 +104,12 @@ describe("simple-calculator", () => {
 
   // any() Asymmetric Matcher
   it("it should bear instance", () => {
+    jasmine.addMatchers(CustomMatcher);
     const calculator = new Calculator();
     calculator.total = 10;
     expect(calculator).toEqual(jasmine.any(Object));
     expect(calculator.total).toEqual(jasmine.any(Number));
+    expect(calculator).toBeCalculator();
   });
 
   // objectContaining({}) Asymmteric Matcher
@@ -116,16 +119,17 @@ describe("simple-calculator", () => {
     expect(calculator).toEqual(
       jasmine.objectContaining({
         total: 10,
-      }));
-    });
-    
-    
+      })
+    );
+  });
+
   // stringContaining('') Asymmteric Matcher
-  it('', () => {
+  it("should have number type for total", () => {
     const calculator = new Calculator();
     calculator.total = 10;
-    expect(typeof calculator.total).toEqual(jasmine.stringContaining('number'))
+    expect(typeof calculator.total).toEqual(jasmine.stringContaining("number"));
   });
+
   it("should expect true to be true", () => {
     expect(true).toBeTrue();
   });
