@@ -1,4 +1,4 @@
-const Calculator = require("./simple-calculator");
+// const Calculator = require("./simple-calculator");
 
 const customMatcher = {
   toBeCalculator: () => {
@@ -16,4 +16,4 @@ const customMatcher = {
   },
 };
 
-exports.CustomMatcher = customMatcher;
+// exports.CustomMatcher = customMatcher;
