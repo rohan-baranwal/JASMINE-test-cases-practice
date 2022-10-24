@@ -96,6 +96,7 @@ describe("main.js", () => {
       expect(window.updateResult).toHaveBeenCalledTimes(1);
     });
   });
+  
   describe("updateResult()", () => {
     let element;
     beforeAll(() => {
