@@ -95,8 +95,31 @@ describe("main.js", () => {
       expect(window.updateResult).toHaveBeenCalledWith(36);
       expect(window.updateResult).toHaveBeenCalledTimes(1);
     });
+
+    it("should call updateResult() - using returnValue()", () => {
+      spyOn(window, "updateResult").and.stub();
+      spyOn(Calculator.prototype, "multiply").and.returnValue(42);
+      calculate("6*7");
+      expect(window.updateResult).toHaveBeenCalled();
+      expect(Calculator.prototype.multiply).toHaveBeenCalled();
+      expect(Calculator.prototype.multiply).toHaveBeenCalledWith(7);
+      expect(window.updateResult).toHaveBeenCalledWith(42);
+      expect(window.updateResult).toHaveBeenCalledTimes(1);
+    });
+
+    it("should call updateResult() - using returnValues()", () => {
+      spyOn(window, "updateResult").and.stub();
+      spyOn(Calculator.prototype, "add").and.returnValues(null, 7);
+      calculate("6+7");
+      expect(window.updateResult).toHaveBeenCalled();
+      expect(Calculator.prototype.add).toHaveBeenCalled();
+      expect(Calculator.prototype.add).toHaveBeenCalledWith(6);
+      expect(Calculator.prototype.add).toHaveBeenCalledWith(7);
+      expect(window.updateResult).toHaveBeenCalledWith(7);
+      expect(Calculator.prototype.add).toHaveBeenCalledTimes(2);
+    });
   });
-  
+
   describe("updateResult()", () => {
     let element;
     beforeAll(() => {
