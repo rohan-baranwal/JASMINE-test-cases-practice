@@ -118,6 +118,11 @@ describe("main.js", () => {
       expect(window.updateResult).toHaveBeenCalledWith(7);
       expect(Calculator.prototype.add).toHaveBeenCalledTimes(2);
     });
+
+    it("should not handle error", () => {
+      spyOn(Calculator.prototype, "multiply").and.throwError("Some Error");
+      expect(() => calculate("3*3")).toThrowError("Some Error");
+    });
   });
 
   describe("updateResult()", () => {
