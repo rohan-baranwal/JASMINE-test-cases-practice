@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/rohan-baranwal/JASMINE-test-cases-practice#readme",
   "devDependencies": {
-    "jasmine": "^4.4.0"
+    "jasmine": "4.4.0"
   }
 }
